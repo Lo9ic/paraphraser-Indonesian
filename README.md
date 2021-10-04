@@ -1,7 +1,19 @@
-# Paraphraser Indonesian Version
+# Paraphraser Version
+
 Parafrasa adalah pengungkapan kembali suatu konsep dengan cara lain tanpa mengubah maknanya
 
-# Cara Menggunakan
-Dengan menjalankan program php paragraphraser.php dan menginput teks yang di inginkan
+# Feature
 
-Teks merah pada result menandakan teks yang di gantikan
+- Bahasa Indonesia Paraphraser
+- Bahasa Inggris Paraphraser
+
+# Cara Menggunakan Version Cli
+
+- Git Clone https://github.com/nanzcakep/paraphraser-Indonesian.git
+- cd paraphraser-Indonesian
+- cd request
+- php cli.php
+
+# Cara Menggunakan Version Website
+
+- kunjungi nanzcakep.com/paraphraser.php
