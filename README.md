@@ -11,7 +11,6 @@ Parafrasa adalah pengungkapan kembali suatu konsep dengan cara lain tanpa mengub
 
 - Git Clone https://github.com/nanzcakep/paraphraser-Indonesian.git
 - cd paraphraser-Indonesian
-- cd request
 - php cli.php
 
 # Cara Menggunakan Version Website
