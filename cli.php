@@ -1,53 +1,42 @@
 <?php
+
+
+
 error_reporting(E_ERROR);
-function request($url, $data = null, $headers = null)
+function request($text)
 {
+    $data = '{"mode":"creative","text":"'. $text .'"}';
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    if($data):
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    endif;
+    curl_setopt($ch, CURLOPT_URL, "https://api.paraphrase.app/paraphrase-modes");
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    if($headers):
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-    endif;
+
+    $headers = array();
+    $headers[] = "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36";
+    $headers[] = "Accept: */*";
+    $headers[] = "Accept-Language: en-US,en;q=0.9,id;q=0.8";
+    $headers[] = "Accept-Encoding: gzip, deflate, br";
+    $headers[] = "Referer: https://paraphrasetool.com/";
+    $headers[] = "Origin: https://paraphrasetool.com";
+    $headers[] = "Content-Type: application/json";
+
+
+
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_HEADER, 1);
 
     curl_setopt($ch, CURLOPT_ENCODING, "GZIP");
-    return curl_exec($ch);
+    $exec = curl_exec($ch);
+    return $exec;
+    curl_close($ch);
 }
 
-
-function getstr($str, $exp1, $exp2)
-{
-    $a = explode($exp1, $str)[1];
-    return explode($exp2, $a)[0];
-}
-
-echo "Teks : ";
+echo "Text : ";
 $text = trim(fgets(STDIN));
+$str =  request($text);
 
-$url = "https://www.paraphraser.io/frontend/rewriteArticleBeta";
-$headers[] = "Cookie: ci_session=i42435vebmu6kknl8g4p8n3dg3fg339u;";
-$headers[] = "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0";
-$headers[] = "Accept: */*";
-$headers[] = "Accept-Language: id,en-US;q=0.7,en;q=0.3";
-$headers[] = "Accept-Encoding: gzip, deflate";
-$headers[] = "Referer: https://www.paraphraser.io/id/parafrase-online";
-$headers[] = "Content-Type: application/x-www-form-urlencoded; charset=UTF-8";
-$headers[] = "X-Requested-With: XMLHttpRequest";
-$headers[] = "Te: trailers";
-$data = "data=$text&mode=1&lang=id&code=0";
-$paraphraser = request($url, $data, $headers);
-if(strpos($paraphraser, '"paraphrase"')!==false)
-{
-    $result = getstr($paraphraser, 'paraphrase":"','\n');
-    $result = str_replace("<b>", "\033[01;31m", $result);
-    $result = str_replace("<\/b>", "\033[0m", $result);
-    echo "\n\nResult : $result\n";
-}
-else
-{
-    echo "Eror Paraphrase\n";
-}
+$cok = explode('"',$str);
+echo "Result :".$cok[7];
+?>
